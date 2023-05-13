@@ -21,7 +21,7 @@ class Blockchain:
             block = {            
                 "timestamp" : str(datetime.now()),
                 "prevHash" : prevHash,
-                "proof" : proofOfWork,
+                "proof" : proofOfWork, #i.e. nonce
                 "index" : len(self.chain)+1
             }
             self.chain.append(block)
@@ -52,9 +52,9 @@ class Blockchain:
             block = chain[i]
             if block["prevHash"] != self.hash(prevBlock):
                 return False
-            prevProof = prevBlock["proof"]
-            proof = block["proof"]
-            myHash  = hashlib.sha256(str(prevProof**2 - proof**2).encode()).hexdigest()
+            prevNonce = prevBlock["proof"]
+            currentNonce = block["proof"]
+            myHash  = hashlib.sha256(str(prevNonce**2 - currentNonce**2).encode()).hexdigest()
             if(myHash[:4] != '0000'):
                 return False
             prevBlock = block
